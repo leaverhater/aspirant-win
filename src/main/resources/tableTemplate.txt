@@ -1,0 +1,1 @@
+ <w:tbl><w:tblPr><w:tblStyle w:val="a3"/><w:tblW w:w="0" w:type="auto"/><w:tblInd w:w="999" w:type="dxa"/><w:tblLook w:val="01E0" w:firstRow="1" w:lastRow="1" w:firstColumn="1" w:lastColumn="1" w:noHBand="0" w:noVBand="0"/></w:tblPr><w:tblGrid><w:gridCol w:w="1235"/><w:gridCol w:w="4664"/><w:gridCol w:w="708"/></w:tblGrid>pasteTrHere</w:tbl>

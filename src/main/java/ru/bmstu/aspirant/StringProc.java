@@ -8,7 +8,7 @@ package ru.bmstu.aspirant;
  */
 public class StringProc {
     public static String toDocxMultiline(String src) {
-        return src.replaceAll("\r\n","</w:t><w:br /><w:t>");
+        return src.replaceAll("\n","</w:t><w:br /><w:t>");
     }
 
     public static String toJLabelMultiline(String src) {

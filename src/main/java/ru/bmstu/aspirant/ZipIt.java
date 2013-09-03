@@ -20,20 +20,23 @@ import java.util.zip.ZipOutputStream;
 public class ZipIt
 {
     private List<String> fileList;
-    private static String mainPath = Main.getMainPath();
+    private static String mainPath = Main.getJarPath();
     private static String OUTPUT_ZIP_FILE = mainPath + "plan.docx";
-    private static String SOURCE_FOLDER = mainPath + "base";
+    private static String SOURCE_FOLDER = mainPath + "config/base";
     private Properties prop = new Properties();
 
     ZipIt(){
         fileList = new ArrayList<String>();
     }
 
-    public static void createDocx()
+    public static void createDocx(String name)
     {
         ZipIt zipIt = new ZipIt();
         zipIt.generateFileList(new File(SOURCE_FOLDER));
-        zipIt.zipFolder(OUTPUT_ZIP_FILE);
+        zipIt.zipFolder(mainPath+"config/"+name+".docx");
+        System.out.println(mainPath+"config/"+name);
+
+
     }
 
     /**

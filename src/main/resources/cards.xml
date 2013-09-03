@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<tabs>
+    <tab id="0" title="Общая информация">
+        <field>
+            <id>name</id>
+            <type>text</type>
+            <label>Фамилия, имя, отчество аспиранта полностью</label>
+        </field>
+        <field>
+            <id>form</id>
+            <type>radio</type>
+            <label>Форма обучения</label>
+            <option1>очная</option1>
+            <option2>заочная</option2>
+
+        </field>
+        <field>
+            <id>time</id>
+            <type>radio</type>
+            <label>Срок обучения</label>
+            <option1>3 года</option1>
+            <option2>4 года</option2>
+        </field>
+    </tab>
+    <tab id="1" title="Науч.-иссл. часть">
+        <field>
+            <id>theme</id>
+            <type>textarea</type>
+            <label>Тема научной работы</label>
+        </field>
+    </tab>
+</tabs>

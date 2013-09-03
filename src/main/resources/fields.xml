@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<fields>
+    <field>
+        <id>name</id>
+        <type>text</type>
+        <label>Фамилия, имя, отчество аспиранта полностью</label>
+        <tab>0</tab>
+    </field>
+    <field>
+        <id>form</id>
+        <type>radio</type>
+        <label>Форма обучения</label>
+        <option1>очная</option1>
+        <option2>заочная</option2>
+        <tab>0</tab>
+    </field>
+    <field>
+        <id>theme</id>
+        <type>textarea</type>
+        <label>Тема научной работы</label>
+        <tab>1</tab>
+    </field>
+    <field>
+        <id></id>
+        <type></type>
+        <label></label>
+        <tab></tab>
+    </field>
+</fields>
