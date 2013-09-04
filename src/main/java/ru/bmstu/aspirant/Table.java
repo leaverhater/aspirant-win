@@ -131,7 +131,9 @@ public class Table {
                 String valueone = (String) tempJTable.getModel().getValueAt(i, 0);
                 String valuetwo = (String) tempJTable.getModel().getValueAt(i, 1);
                 String valuethree = (String) tempJTable.getModel().getValueAt(i, 2);
-                allRows = allRows + getDocxRow(valueone, valuetwo, valuethree);
+                if ((Boolean)tempJTable.getModel().getValueAt(i,3))
+                    allRows = allRows + getDocxBoldRow(valueone, valuetwo, valuethree); else
+                    allRows = allRows + getDocxRow(valueone, valuetwo, valuethree);
             }
             docxTable = getTableTemplate().replaceAll("pasteTrHere", allRows);
             docxTables.add(docxTable);
@@ -197,16 +199,16 @@ public class Table {
 //        private Object[][] data;
         private ArrayList<String> columnNames;
         private ArrayList<ArrayList<Object>> data;
-        private ArrayList<Object> emptyLine;
+
 
         public MyTableModel(ArrayList<String> titles) {
-            titles.add("Выделить");
 //            this.columnNames = new String[titles.size()];
 //            this.data = new Object[1][titles.size()];
 //            this.columnNames = titles.toArray(this.columnNames);
-            this.columnNames = titles;
+            this.columnNames = new ArrayList<String>(titles);
+            this.columnNames.add("Выделить");
             data = new ArrayList<ArrayList<Object>>();
-            emptyLine = new ArrayList<Object>();
+            ArrayList<Object> emptyLine = new ArrayList<Object>();
             for (int i = 0; i < getColumnCount() - 1; i++)
                 emptyLine.add("");
             emptyLine.add(false);
@@ -230,16 +232,24 @@ public class Table {
         }
 
         public Class getColumnClass(int c) {
-            if (c < columnNames.size() - 1)
+            if (c < getColumnCount() - 1)
                 return String.class;
-            else
-                return Boolean.class;
+            else return Boolean.class;
         }
 
         public void addRow() {
-            data.add(emptyLine);
+            ArrayList<Object> newLine = new ArrayList<Object>();
+            for (int i = 0; i < getColumnCount() - 1; i++)
+                newLine.add("");
+            newLine.add(false);
+            data.add(newLine);
             this.fireTableDataChanged();
 
+        }
+
+        public void delRow(int rowNum) {
+            data.remove(rowNum);
+            this.fireTableDataChanged();
         }
 
         public boolean isCellEditable(int row, int col) {
@@ -248,9 +258,7 @@ public class Table {
 
         public void setValueAt(Object value, int row, int col) {
             // change made here
-            ArrayList<Object> tempData = data.get(row);
-            tempData.set(col, value);
-            data.set(row, tempData);
+            data.get(row).set(col,value);
             fireTableCellUpdated(row, col);
         }
     }
