@@ -6,14 +6,17 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import ru.bmstu.aspirant.win.ButtonColumn;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumnModel;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,15 +45,29 @@ public class Table {
         this.titles = titles;
         JPanel tempJPanel = new JPanel();
         tempJPanel.setLayout(new BoxLayout(tempJPanel, BoxLayout.Y_AXIS));
-        int labelCnt = 0;
         for (String tempLabel : labels) {
-//            JTable tempJTable = new JTable(new String[1][titles.size()], titles.toArray());
             JTable tempJTable = new JTable(new MyTableModel(titles));
-            JButton tempButton = new JButton("Добавить строку");
-            tempButton.addActionListener(new AddRowButtonListener(tempJTable));
+            TableColumnModel tempColumnModel = tempJTable.getColumnModel();
+            tempColumnModel.getColumn(0).setMaxWidth(70);
+            tempColumnModel.getColumn(2).setMaxWidth(70);
+            tempColumnModel.getColumn(3).setMaxWidth(100);
+            tempColumnModel.getColumn(4).setMaxWidth(150);
+            tempColumnModel.getColumn(4).setMinWidth(150);
+            tempColumnModel.getColumn(5).setMaxWidth(150);
+            tempColumnModel.getColumn(5).setMinWidth(150);
+
+
             tempJPanel.add(new JLabel(tempLabel));
-            tempJPanel.add(new JScrollPane(tempJTable));
-            tempJPanel.add(tempButton);
+
+            ButtonColumn delButtonColumn = new ButtonColumn(tempJTable, delete, 4);
+            ButtonColumn addButtonColumn = new ButtonColumn(tempJTable, add, 5);
+            delButtonColumn.setMnemonic(KeyEvent.VK_D);
+            addButtonColumn.setMnemonic(KeyEvent.VK_D);
+            tempJPanel.add(tempJTable.getTableHeader());
+            tempJPanel.add(tempJTable);
+            JButton tempJButton = new JButton("Добавить");
+            tempJButton.addActionListener(new AddRowButtonListener(tempJTable));
+            tempJPanel.add(tempJButton);
 
             tables.add(tempJTable);
         }
@@ -199,6 +216,7 @@ public class Table {
 //        private Object[][] data;
         private ArrayList<String> columnNames;
         private ArrayList<ArrayList<Object>> data;
+        private ArrayList<Object> emptyLine;
 
 
         public MyTableModel(ArrayList<String> titles) {
@@ -207,12 +225,16 @@ public class Table {
 //            this.columnNames = titles.toArray(this.columnNames);
             this.columnNames = new ArrayList<String>(titles);
             this.columnNames.add("Выделить");
+            this.columnNames.add("");
+            this.columnNames.add("");
             data = new ArrayList<ArrayList<Object>>();
-            ArrayList<Object> emptyLine = new ArrayList<Object>();
-            for (int i = 0; i < getColumnCount() - 1; i++)
+            emptyLine = new ArrayList<Object>();
+            for (int i = 0; i < getColumnCount() - 3; i++)
                 emptyLine.add("");
             emptyLine.add(false);
-            this.data.add(emptyLine);
+            emptyLine.add("Удалить");
+            emptyLine.add("Вставить");
+            this.data.add(new ArrayList<Object>(emptyLine));
         }
 
         public int getColumnCount() {
@@ -232,17 +254,20 @@ public class Table {
         }
 
         public Class getColumnClass(int c) {
-            if (c < getColumnCount() - 1)
+//            if (c < getColumnCount() - 2)
+//                return String.class;
+//            else return Boolean.class;
+            if (c == 3)
+                return Boolean.class; else
                 return String.class;
-            else return Boolean.class;
         }
 
-        public void addRow() {
-            ArrayList<Object> newLine = new ArrayList<Object>();
-            for (int i = 0; i < getColumnCount() - 1; i++)
-                newLine.add("");
-            newLine.add(false);
-            data.add(newLine);
+        public void addRow(int rowNum) {
+            ArrayList<Object> newLine = new ArrayList<Object>(emptyLine);
+//            for (int i = 0; i < getColumnCount() - 1; i++)
+//                newLine.add("");
+//            newLine.add(false);
+            data.add(rowNum, newLine);
             this.fireTableDataChanged();
 
         }
@@ -263,6 +288,26 @@ public class Table {
         }
     }
 
+    Action delete = new AbstractAction()
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            JTable table = (JTable)e.getSource();
+            int modelRow = Integer.valueOf( e.getActionCommand() );
+            ((MyTableModel)table.getModel()).delRow(modelRow);
+        }
+    };
+
+    Action add = new AbstractAction()
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            JTable table = (JTable)e.getSource();
+            int modelRow = Integer.valueOf( e.getActionCommand() );
+            ((MyTableModel)table.getModel()).addRow(modelRow);
+        }
+    };
+
     public static class AddRowButtonListener implements ActionListener {
         private JTable table;
 
@@ -271,9 +316,11 @@ public class Table {
         }
 
         public void actionPerformed(ActionEvent e) {
-            ((MyTableModel)table.getModel()).addRow();
+            ((MyTableModel)table.getModel()).addRow(table.getRowCount());
         }
     }
+
+
 
 
 }

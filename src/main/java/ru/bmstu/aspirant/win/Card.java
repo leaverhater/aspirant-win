@@ -12,6 +12,7 @@ import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -101,7 +102,9 @@ public class Card {
                 int tabNum = tempField.getTab();
                 if (tempField.getType().equals("text")) {
                     tempPanel.add(new JLabel(tempField.getLabel()));
-                    tempField.setComponent(new JTextField());
+                    JTextField tempJTextField = new JTextField();
+                    tempJTextField.setMaximumSize(new Dimension(800, 20));
+                    tempField.setComponent(tempJTextField);
                     tempPanel.add(tempField.getComponent());
                 } else if (tempField.getType().equals("radio")) {
                     tempPanel.add(new JLabel(tempField.getLabel()));
