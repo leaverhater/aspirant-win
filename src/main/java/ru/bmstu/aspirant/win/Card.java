@@ -136,7 +136,7 @@ public class Card {
             if (tempCard.getId() == 1)
                 tempPanel.setPreferredSize(new Dimension(512, 1780));
             JScrollPane tempScroller = new JScrollPane(tempPanel);
-            tempScroller.setPreferredSize(new Dimension(512, 700));
+            tempScroller.setPreferredSize(new Dimension(512, 680));
             tempCard.panel = tempPanel;
             tempCard.setScroller(tempScroller);
             cards.add(tempCard);

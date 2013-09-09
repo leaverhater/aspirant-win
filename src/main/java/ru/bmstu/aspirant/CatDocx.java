@@ -18,28 +18,30 @@ import java.util.ArrayList;
 public class CatDocx {
     private static String mainPath = Main.getJarPath();
     private static String docXmlFile;
-    private static String outXmlFile = mainPath + "base/word/document.xml";
+    private static String outXmlFile = mainPath + File.separator + "base" + File.separator + "word" + File.separator + "document.xml";
     private static String timeStr = new String();
     private static String name;
+    private static String code = "utf-8";
 
     /**
      * Возвращает строку - содержимое файла document.xml в случае оконного приложения       *
      *
      * @return Строка - содержимое файла document.xml в случае оконного приложения
      */
-    public CatDocx () {
+    public CatDocx() {
 
     }
+
     public static String sumString(ArrayList<Card> cards, ArrayList<Table> tables) {
-        String sumString = new String();
+        String sumString = null;
         timeStr = Field.getValueFromFieldId(cards, "time");
 //        time = Integer.parseInt(timeStr.substring(0, 1));
-        docXmlFile = mainPath + "config/document" + timeStr.substring(0, 1) + ".xml";
-        System.out.println( mainPath + "config/document" + timeStr.substring(0, 1) + ".xml");
+        docXmlFile = mainPath + File.separator + "config" + File.separator + "document" + timeStr.substring(0, 1) + ".xml";
+        System.out.println(mainPath + File.separator + "config" + File.separator + "document" + timeStr.substring(0, 1) + ".xml");
         name = Field.getValueFromFieldId(cards, "name");
         String manager = Field.getValueFromFieldId(cards, "manager");
         try {
-            sumString = FileUtils.readFileToString(new File(docXmlFile));
+            sumString = new String(FileUtils.readFileToString(new File(docXmlFile)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -60,7 +62,7 @@ public class CatDocx {
             }
         }
         sumString = sumString.replaceAll("nameShortfield", StringProc.longNameToShort(name));
-        System.out.println("Replaced nameShortField with "+ StringProc.longNameToShort(name));
+        System.out.println("Replaced nameShortField with " + StringProc.longNameToShort(name));
         sumString = sumString.replaceAll("managerShortfield", StringProc.longNameToShort(manager));
         return sumString;
     }
@@ -69,19 +71,20 @@ public class CatDocx {
      * Генерирует docx файл
      */
     public static void concatDocx(ArrayList<Card> cards, ArrayList<Table> tables) {
-        String sumString = sumString(cards, tables);
-        String finalString = new String();
+        String sumString;
+        String finalString;
         try {
-            finalString = new String(sumString.getBytes("utf-8"), "utf-8");
+            sumString = new String(sumString(cards, tables));
+            finalString = new String(sumString.getBytes("utf-8"));
+            File file = new File(outXmlFile);
+            FileUtils.writeStringToFile(file, finalString);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-        }
-        File file = new File(outXmlFile);
-        try {
-            FileUtils.writeStringToFile(file, finalString);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
         ZipIt.createDocx(StringProc.longNameToShort(name));
     }
 }

@@ -88,6 +88,8 @@
                         <exclude>base/**</exclude>
                         <exclude>config/**</exclude>
                         <exclude>plans/**</exclude>
+                        <exclude>Readme.txt</exclude>
+                        <exclude>start.bat</exclude>
                     </excludes>
                 </configuration>
             </plugin>
@@ -174,15 +176,6 @@
                 <!--</executions>-->
             <!--</plugin>-->
         </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>**/plans/*</exclude>
-                </excludes>
-                <filtering>false</filtering>
-            </resource>
-        </resources>
         <finalName>aspirant</finalName>
     </build>
 </project>

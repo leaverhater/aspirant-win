@@ -30,7 +30,7 @@ public class ZipIt
     {
         ZipIt zipIt = new ZipIt();
         zipIt.generateFileList(new File(SOURCE_FOLDER));
-        zipIt.zipFolder(mainPath + "plans" + File.separator + name + ".docx");
+        zipIt.zipFolder(mainPath + File.separator + "plans" + File.separator + name + ".docx");
     }
 
     /**
@@ -55,7 +55,7 @@ public class ZipIt
                 zos.putNextEntry(ze);
 
                 FileInputStream in =
-                        new FileInputStream(SOURCE_FOLDER + file);
+                        new FileInputStream(SOURCE_FOLDER + File.separator + file);
 
                 int len;
                 while ((len = in.read(buffer)) > 0) {
@@ -102,7 +102,7 @@ public class ZipIt
      * @return Formatted file path
      */
     private String generateZipEntry(String file){
-        return file.substring(SOURCE_FOLDER.length(), file.length());
+        return file.substring(SOURCE_FOLDER.length()+1, file.length());
     }
     public List<String> getFileList()
     {

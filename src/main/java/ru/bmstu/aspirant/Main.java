@@ -18,9 +18,9 @@ public class Main {
     public static String getJarPath() {
         String jarPath = new String();
         jarPath = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-//        System.out.println(jarPath);
+        System.out.println(jarPath);
         try {
-            jarPath = URLDecoder.decode(jarPath.substring(0, jarPath.length()-13), "UTF-8");
+            jarPath = URLDecoder.decode((new File(jarPath)).getParentFile().getPath(), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
