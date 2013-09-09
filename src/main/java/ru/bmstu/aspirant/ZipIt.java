@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -21,9 +20,7 @@ public class ZipIt
 {
     private List<String> fileList;
     private static String mainPath = Main.getJarPath();
-    private static String OUTPUT_ZIP_FILE = mainPath + "plan.docx";
-    private static String SOURCE_FOLDER = mainPath + "config/base";
-    private Properties prop = new Properties();
+    private static String SOURCE_FOLDER = mainPath + File.separator + "base";
 
     ZipIt(){
         fileList = new ArrayList<String>();
@@ -33,10 +30,7 @@ public class ZipIt
     {
         ZipIt zipIt = new ZipIt();
         zipIt.generateFileList(new File(SOURCE_FOLDER));
-        zipIt.zipFolder(mainPath+"config/"+name+".docx");
-        System.out.println(mainPath+"config/"+name);
-
-
+        zipIt.zipFolder(mainPath + "plans" + File.separator + name + ".docx");
     }
 
     /**
@@ -61,7 +55,7 @@ public class ZipIt
                 zos.putNextEntry(ze);
 
                 FileInputStream in =
-                        new FileInputStream(SOURCE_FOLDER + File.separator + file);
+                        new FileInputStream(SOURCE_FOLDER + file);
 
                 int len;
                 while ((len = in.read(buffer)) > 0) {
@@ -108,14 +102,10 @@ public class ZipIt
      * @return Formatted file path
      */
     private String generateZipEntry(String file){
-        return file.substring(SOURCE_FOLDER.length()+1, file.length());
+        return file.substring(SOURCE_FOLDER.length(), file.length());
     }
     public List<String> getFileList()
     {
         return fileList;
-    }
-    public static String getDocxName()
-    {
-        return OUTPUT_ZIP_FILE;
     }
 }

@@ -28,18 +28,18 @@ import java.util.ArrayList;
  * Time: 15:04
  */
 public class Table {
-    private int rowNum;
-    private int colNum = 3;
+    //    private int rowNum;
+//    private int colNum = 3;
     private String id;
     private ArrayList<String> titles = new ArrayList<String>();
     private ArrayList<String> labels = new ArrayList<String>();
     private ArrayList<JTable> tables = new ArrayList<JTable>();
-    private ArrayList<JButton> addRowButtons = new ArrayList<JButton>();
-    //    private ArrayList<JPanel> cards = new ArrayList<JPanel>();
+    //    private ArrayList<JButton> addRowButtons = new ArrayList<JButton>();
+//    private ArrayList<JPanel> cards = new ArrayList<JPanel>();
     private JScrollPane scroller = new JScrollPane();
-    private String data[][];
+    //    private String data[][];
     private String header;
-    private static String mainPath = Main.getMainPath();
+//    private static String mainPath = Main.getMainPath();
 
     public void setTitles(ArrayList<String> titles) {
         this.titles = titles;
@@ -65,7 +65,7 @@ public class Table {
             addButtonColumn.setMnemonic(KeyEvent.VK_D);
             tempJPanel.add(tempJTable.getTableHeader());
             tempJPanel.add(tempJTable);
-            JButton tempJButton = new JButton("Добавить");
+            JButton tempJButton = new JButton("Добавить строку");
             tempJButton.addActionListener(new AddRowButtonListener(tempJTable));
             tempJPanel.add(tempJButton);
 
@@ -101,7 +101,7 @@ public class Table {
 
     public static ArrayList<Table> getTables() {
         ArrayList<Table> tables = new ArrayList<Table>();
-        File tablesXml = new File(Main.getJarPath() + "config/tables.xml");
+        File tablesXml = new File(Main.getJarPath() + File.separator + "config"+File.separator+"tables.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = null;
         try {
@@ -111,15 +111,20 @@ public class Table {
         }
         Document doc = null;
         try {
-            doc = dBuilder.parse(tablesXml);
+            if (dBuilder != null) {
+                doc = dBuilder.parse(tablesXml);
+            }
         } catch (SAXException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        NodeList tableList = null;
+        if (doc != null) {
+            doc.getDocumentElement().normalize();
+            tableList = doc.getElementsByTagName("table");
+        }
 
-        doc.getDocumentElement().normalize();
-        NodeList tableList = doc.getElementsByTagName("table");
         for (int i = 0; i < tableList.getLength(); i++) {
             Node tableNode = tableList.item(i);
             Element tableElement = (Element) tableNode;
@@ -148,8 +153,9 @@ public class Table {
                 String valueone = (String) tempJTable.getModel().getValueAt(i, 0);
                 String valuetwo = (String) tempJTable.getModel().getValueAt(i, 1);
                 String valuethree = (String) tempJTable.getModel().getValueAt(i, 2);
-                if ((Boolean)tempJTable.getModel().getValueAt(i,3))
-                    allRows = allRows + getDocxBoldRow(valueone, valuetwo, valuethree); else
+                if ((Boolean) tempJTable.getModel().getValueAt(i, 3))
+                    allRows = allRows + getDocxBoldRow(valueone, valuetwo, valuethree);
+                else
                     allRows = allRows + getDocxRow(valueone, valuetwo, valuethree);
             }
             docxTable = getTableTemplate().replaceAll("pasteTrHere", allRows);
@@ -161,7 +167,7 @@ public class Table {
     private static String getTableTemplate() {
         String tableTemplate = new String();
         try {
-            tableTemplate = FileUtils.readFileToString(new File(Main.getJarPath() + Main.tableTemplateFile));
+            tableTemplate = FileUtils.readFileToString(new File(Main.getJarPath() + File.separator + Main.tableTemplateFile));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -171,7 +177,7 @@ public class Table {
     private static String getRowTemplate() {
         String rowTemplate = new String();
         try {
-            rowTemplate = FileUtils.readFileToString(new File(Main.getJarPath() + Main.rowTemplateFile));
+            rowTemplate = FileUtils.readFileToString(new File(Main.getJarPath() + File.separator + Main.rowTemplateFile));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -181,7 +187,7 @@ public class Table {
     private static String getBoldRowTemplate() {
         String boldRowTemplate = new String();
         try {
-            boldRowTemplate = FileUtils.readFileToString(new File(Main.getJarPath() + Main.boldRowTemplateFile));
+            boldRowTemplate = FileUtils.readFileToString(new File(Main.getJarPath() + File.separator + Main.boldRowTemplateFile));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -212,7 +218,7 @@ public class Table {
     }
 
     class MyTableModel extends AbstractTableModel {
-//        private String[] columnNames;
+        //        private String[] columnNames;
 //        private Object[][] data;
         private ArrayList<String> columnNames;
         private ArrayList<ArrayList<Object>> data;
@@ -232,8 +238,8 @@ public class Table {
             for (int i = 0; i < getColumnCount() - 3; i++)
                 emptyLine.add("");
             emptyLine.add(false);
-            emptyLine.add("Удалить");
-            emptyLine.add("Вставить");
+            emptyLine.add("Удалить строку");
+            emptyLine.add("Вставить строку");
             this.data.add(new ArrayList<Object>(emptyLine));
         }
 
@@ -254,19 +260,14 @@ public class Table {
         }
 
         public Class getColumnClass(int c) {
-//            if (c < getColumnCount() - 2)
-//                return String.class;
-//            else return Boolean.class;
             if (c == 3)
-                return Boolean.class; else
+                return Boolean.class;
+            else
                 return String.class;
         }
 
         public void addRow(int rowNum) {
             ArrayList<Object> newLine = new ArrayList<Object>(emptyLine);
-//            for (int i = 0; i < getColumnCount() - 1; i++)
-//                newLine.add("");
-//            newLine.add(false);
             data.add(rowNum, newLine);
             this.fireTableDataChanged();
 
@@ -283,28 +284,24 @@ public class Table {
 
         public void setValueAt(Object value, int row, int col) {
             // change made here
-            data.get(row).set(col,value);
+            data.get(row).set(col, value);
             fireTableCellUpdated(row, col);
         }
     }
 
-    Action delete = new AbstractAction()
-    {
-        public void actionPerformed(ActionEvent e)
-        {
-            JTable table = (JTable)e.getSource();
-            int modelRow = Integer.valueOf( e.getActionCommand() );
-            ((MyTableModel)table.getModel()).delRow(modelRow);
+    Action delete = new AbstractAction() {
+        public void actionPerformed(ActionEvent e) {
+            JTable table = (JTable) e.getSource();
+            int modelRow = Integer.valueOf(e.getActionCommand());
+            ((MyTableModel) table.getModel()).delRow(modelRow);
         }
     };
 
-    Action add = new AbstractAction()
-    {
-        public void actionPerformed(ActionEvent e)
-        {
-            JTable table = (JTable)e.getSource();
-            int modelRow = Integer.valueOf( e.getActionCommand() );
-            ((MyTableModel)table.getModel()).addRow(modelRow);
+    Action add = new AbstractAction() {
+        public void actionPerformed(ActionEvent e) {
+            JTable table = (JTable) e.getSource();
+            int modelRow = Integer.valueOf(e.getActionCommand());
+            ((MyTableModel) table.getModel()).addRow(modelRow);
         }
     };
 
@@ -316,11 +313,9 @@ public class Table {
         }
 
         public void actionPerformed(ActionEvent e) {
-            ((MyTableModel)table.getModel()).addRow(table.getRowCount());
+            ((MyTableModel) table.getModel()).addRow(table.getRowCount());
         }
     }
-
-
 
 
 }

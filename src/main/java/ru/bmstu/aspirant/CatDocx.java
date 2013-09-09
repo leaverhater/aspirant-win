@@ -17,21 +17,27 @@ import java.util.ArrayList;
  */
 public class CatDocx {
     private static String mainPath = Main.getJarPath();
-    private static String docPath = mainPath + "config/base/";
-    private static String docXmlFile = mainPath + "config/document.xml";
+    private static String docXmlFile;
+    private static String outXmlFile = mainPath + "base/word/document.xml";
     private static String timeStr = new String();
-    private static int time;
+    private static String name;
 
     /**
      * Возвращает строку - содержимое файла document.xml в случае оконного приложения       *
      *
      * @return Строка - содержимое файла document.xml в случае оконного приложения
      */
+    public CatDocx () {
+
+    }
     public static String sumString(ArrayList<Card> cards, ArrayList<Table> tables) {
         String sumString = new String();
-        timeStr = Field.getValueFromFieldId(cards, 0, "time");
-        time = Integer.parseInt(timeStr.substring(0, 1));
-        System.out.println("Time is " + time);
+        timeStr = Field.getValueFromFieldId(cards, "time");
+//        time = Integer.parseInt(timeStr.substring(0, 1));
+        docXmlFile = mainPath + "config/document" + timeStr.substring(0, 1) + ".xml";
+        System.out.println( mainPath + "config/document" + timeStr.substring(0, 1) + ".xml");
+        name = Field.getValueFromFieldId(cards, "name");
+        String manager = Field.getValueFromFieldId(cards, "manager");
         try {
             sumString = FileUtils.readFileToString(new File(docXmlFile));
         } catch (IOException e) {
@@ -53,6 +59,9 @@ public class CatDocx {
                 tableCount++;
             }
         }
+        sumString = sumString.replaceAll("nameShortfield", StringProc.longNameToShort(name));
+        System.out.println("Replaced nameShortField with "+ StringProc.longNameToShort(name));
+        sumString = sumString.replaceAll("managerShortfield", StringProc.longNameToShort(manager));
         return sumString;
     }
 
@@ -67,13 +76,12 @@ public class CatDocx {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        File file = new File(docPath + "word/document.xml");
+        File file = new File(outXmlFile);
         try {
             FileUtils.writeStringToFile(file, finalString);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
+        ZipIt.createDocx(StringProc.longNameToShort(name));
     }
 }

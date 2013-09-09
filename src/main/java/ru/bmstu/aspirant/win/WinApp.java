@@ -28,19 +28,24 @@ public class WinApp {
 
     public static void addComponentToPane(Container pane) {
         JTabbedPane tabbedPane = new JTabbedPane();
-        for (Card tempCard:cards) {
-            tabbedPane.addTab(tempCard.getTitle(), tempCard.getScroller());
+//        for (Card tempCard:cards) {
+//            tabbedPane.addTab(tempCard.getTitle(), tempCard.getScroller());
+//        }
+        for (int i = 0; i < cards.size() - 1; i++) {
+            tabbedPane.addTab(cards.get(i).getTitle(), cards.get(i).getScroller());
         }
         for (Table tempTable:tables) {
             tabbedPane.addTab(tempTable.getHeader(), tempTable.getScroller());
-//            tableScrollers.add(tempTable.getScroller());
         }
+        Card finalCard = cards.get(cards.size()-1);
+        JScrollPane finalScroller = finalCard.getScroller();
+        tabbedPane.setMaximumSize(new Dimension(512, 700));
         JPanel finalTab = new JPanel();
         finalTab.setLayout(new BoxLayout(finalTab, BoxLayout.Y_AXIS));
         JButton genButton = new JButton("Генерировать");
         genButton.addActionListener(new GenButtonListener());
-        finalTab.add(genButton);
-        tabbedPane.addTab("Готово",finalTab);
+        finalCard.getPanel().add(genButton);
+        tabbedPane.addTab("Готово",finalScroller);
         pane.add(tabbedPane, BorderLayout.CENTER);
 
     }
@@ -56,7 +61,7 @@ public class WinApp {
     public static class GenButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             CatDocx.concatDocx(cards, tables);
-            ZipIt.createDocx("example");
+
         }
     }
 

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<tabs>
+    <tab id="0" title="Общая информация">
+        <field>
+            <id>name</id>
+            <type>text</type>
+            <label>Фамилия, имя, отчество аспиранта полностью</label>
+        </field>
+        <field>
+            <id>form</id>
+            <type>radio</type>
+            <label>Форма обучения</label>
+            <option1>очная</option1>
+            <option2>заочная</option2>
+        </field>
+        <field>
+            <id>dep</id>
+            <type>text</type>
+            <label>Кафедра (индекс)</label>
+        </field><field>
+        <id>fullDep</id>
+        <type>text</type>
+        <label>Полное наименование кафедры</label>
+    </field>
+        <field>
+            <id>spec</id>
+            <type>text</type>
+            <label>Научная специальность</label>
+        </field>
+        <field>
+            <id>time</id>
+            <type>radio</type>
+            <label>Срок обучения</label>
+            <option1>3 года</option1>
+            <option2>4 года</option2>
+        </field>
+        <field>
+            <id>manager</id>
+            <type>text</type>
+            <label>Научный руководитель (фамилия, имя, отчество, ученая степень, ученое звание)</label>
+        </field>
+        <field>
+            <id>consult</id>
+            <type>text</type>
+            <label>Научный консультант (фамилия, имя, отчество, ученая степень, ученое звание)</label>
+        </field>
+        <field>
+            <id>start</id>
+            <type>text</type>
+            <label>Дата зачисления в аспирантуру</label>
+        </field>
+        <field>
+            <id>end</id>
+            <type>text</type>
+            <label>Дата окончания аспирантуры</label>
+        </field>
+        <field>
+            <id>end</id>
+            <type>text</type>
+            <label>Дата окончания аспирантуры</label>
+        </field>
+        <field>
+            <id>head</id>
+            <type>text</type>
+            <label>Заведующий кафедрой (И.О.Фамилия)</label>
+        </field>
+        <field>
+            <id>date</id>
+            <type>text</type>
+            <label>Дата</label>
+        </field>
+    </tab>
+    <tab id="1" title="Науч.-иссл. часть">
+        <field>
+            <id>theme</id>
+            <type>textarea</type>
+            <label>Тема научной работы</label>
+        </field>
+        <field>
+            <id>topicality</id>
+            <type>textarea</type>
+            <label>Актуальность темы</label>
+        </field>
+        <field>
+            <id>goal</id>
+            <type>textarea</type>
+            <label>Цель работы</label>
+        </field>
+        <field>
+            <id>newness</id>
+            <type>textarea</type>
+            <label>Научная новизна работы</label>
+        </field>
+        <field>
+            <id>value</id>
+            <type>textarea</type>
+            <label>Практическая ценность</label>
+        </field>
+        <field>
+            <id>realization</id>
+            <type>textarea</type>
+            <label>Реализация результатов</label>
+        </field>
+        <field>
+            <id>publication</id>
+            <type>textarea</type>
+            <label>&lt;html&gt;Научные публикации, доклады, участие в научно-технических олимпиадах, &lt;br&gt; получение стипендий Президента РФ и Правительства РФ в студенческие годы.&lt;/html&gt;</label>
+        </field>
+        <field>
+            <id>otherPublication</id>
+            <type>textarea</type>
+            <label>Прочие публикации</label>
+        </field>
+        <field>
+            <id>remark</id>
+            <type>textarea</type>
+            <label>Замечания по названию диссертации и общей характеристике работы экспертом Совета при ректоре по кадровой политике в области подготовки научно-педагогических и научных кадров в МГТУ им.Н.Э.Баумана</label>
+        </field>
+        <field>
+            <id>expert</id>
+            <type>text</type>
+            <label>Руководитель экспертной группы (И.О.Фамилия)</label>
+        </field>
+    </tab>
+    <tab>
+        <field>
+            <id>sovet</id>
+            <type>text</type>
+            <label>Название (номер) Ученого совета, где планируется защита диссертации</label>
+        </field>
+        <field>
+            <id>predef</id>
+            <type>text</type>
+            <label>Предполагаемая дата предзащиты на кафедре</label>
+        </field>
+        <field>
+            <id>passDate</id>
+            <type>text</type>
+            <label>Предполагаемая дата сдачи диссертации в Ученый Совет</label>
+        </field>
+        <field>
+            <id>reason</id>
+            <type>text</type>
+            <label>Причины, по которым диссертация не может быть защищена в срок</label>
+        </field>
+        <field>
+            <id>additionalInfo</id>
+            <type>textarea</type>
+            <label>Дополнительная информация (по усмотрению научного руководителя)</label>
+        </field>
+        <field>
+            <id>attDate</id>
+            <type>text</type>
+            <label>Аспирант аттестован (не аттестован) решением кафедры  от: (дата)</label>
+        </field>
+        <field>
+            <id>protnum</id>
+            <type>text</type>
+            <label>протокол №</label>
+        </field>
+        <field>
+            <id>nuk</id>
+            <type>text</type>
+            <label>НУК</label>
+        </field>
+        <field>
+            <id>nukHead</id>
+            <type>text</type>
+            <label>Руководитель НУК (И.О.Фамилия)</label>
+        </field>
+        <field>
+            <id>aspirantHead</id>
+            <type>text</type>
+            <label>Начальник управления докторантуры и аспирантуры (И.О.Фамилия)</label>
+        </field>
+    </tab>
+</tabs>

@@ -15,12 +15,6 @@
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
       <dependency>
           <groupId>commons-io</groupId>
           <artifactId>commons-io</artifactId>
@@ -30,26 +24,26 @@
   </dependencies>
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>native2ascii-maven-plugin</artifactId>
-                <version>1.0-alpha-1</version>
-                <executions>
-                    <execution>
-                        <id>n2s3</id>
-                        <goals>
-                            <goal>native2ascii</goal>
-                        </goals>
-                        <configuration>
-                            <encoding>UTF8</encoding>
-                            <src>${project.basedir}/src/main/resources</src>
-                            <dest>${project.build.directory}/config</dest>
-                            <includes>**/?*.properties</includes>
-                            <!--<includes>**/?*.xml</includes>-->
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.codehaus.mojo</groupId>-->
+                <!--<artifactId>native2ascii-maven-plugin</artifactId>-->
+                <!--<version>1.0-alpha-1</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>n2s3</id>-->
+                        <!--<goals>-->
+                            <!--<goal>native2ascii</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<encoding>UTF8</encoding>-->
+                            <!--<src>${project.basedir}/src/main/resources</src>-->
+                            <!--<dest>${project.build.directory}/config</dest>-->
+                            <!--<includes>**/?*.properties</includes>-->
+                            <!--&lt;!&ndash;<includes>**/?*.xml</includes>&ndash;&gt;-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -62,7 +56,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/config</outputDirectory>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
                             <resources>
                                 <resource>
                                 <directory>${project.basedir}/src/main/resources</directory>
@@ -71,6 +65,47 @@
                                 <!--</includes>-->
                                 </resource>
                             </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <classpathLayoutType>simple</classpathLayoutType>
+                            <mainClass>ru.bmstu.aspirant.win.WinApp</mainClass>
+                        </manifest>
+                        <manifestEntries>
+                            <Version>1.0.0</Version>
+                        </manifestEntries>
+                    </archive>
+                    <excludes>
+                        <exclude>base/**</exclude>
+                        <exclude>config/**</exclude>
+                        <exclude>plans/**</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
                         </configuration>
                     </execution>
                 </executions>
@@ -139,6 +174,15 @@
                 <!--</executions>-->
             <!--</plugin>-->
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>**/plans/*</exclude>
+                </excludes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
         <finalName>aspirant</finalName>
     </build>
 </project>

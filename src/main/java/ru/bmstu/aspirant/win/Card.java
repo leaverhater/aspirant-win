@@ -28,6 +28,11 @@ public class Card {
     private String title;
     private int id;
     private JScrollPane scroller;
+    private JPanel panel;
+
+    public Card() {
+//        scroller.createVerticalScrollBar();
+    }
 
     public void setTitle(String title) {
         this.title = title;
@@ -61,10 +66,14 @@ public class Card {
         return this.scroller;
     }
 
+    public JPanel getPanel() {
+        return this.panel;
+    }
+
 
     public static ArrayList<Card> getCards() {
         ArrayList<Card> cards = new ArrayList<Card>();
-        File cardsXml = new File(Main.getJarPath() + "config/cards.xml");
+        File cardsXml = new File(Main.getJarPath() + File.separator + "config"+File.separator+"cards.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = null;
         try {
@@ -103,13 +112,13 @@ public class Card {
                 if (tempField.getType().equals("text")) {
                     tempPanel.add(new JLabel(tempField.getLabel()));
                     JTextField tempJTextField = new JTextField();
-                    tempJTextField.setMaximumSize(new Dimension(800, 20));
+                    tempJTextField.setMaximumSize(new Dimension(900, 20));
                     tempField.setComponent(tempJTextField);
                     tempPanel.add(tempField.getComponent());
                 } else if (tempField.getType().equals("radio")) {
                     tempPanel.add(new JLabel(tempField.getLabel()));
                     tempField.setComponent(new JRadioButton(tempField.getOption1()));
-                    ((JRadioButton)tempField.getComponent()).setSelected(true);
+                    ((JRadioButton) tempField.getComponent()).setSelected(true);
                     ButtonGroup tempGroup = new ButtonGroup();
                     JRadioButton tempRadioButton = new JRadioButton(tempField.getOption2());
                     tempGroup.add((JRadioButton) tempField.getComponent());
@@ -118,11 +127,17 @@ public class Card {
                     tempPanel.add(tempRadioButton);
                 } else if (tempField.getType().equals("textarea")) {
                     tempPanel.add(new JLabel(tempField.getLabel()));
+                    JTextArea tempJTextArea = new JTextArea();
+                    tempJTextArea.setPreferredSize(new Dimension(900, 200));
                     tempField.setComponent(new JTextArea());
                     tempPanel.add(new JScrollPane(tempField.getComponent()));
                 }
             }
+            if (tempCard.getId() == 1)
+                tempPanel.setPreferredSize(new Dimension(512, 1780));
             JScrollPane tempScroller = new JScrollPane(tempPanel);
+            tempScroller.setPreferredSize(new Dimension(512, 700));
+            tempCard.panel = tempPanel;
             tempCard.setScroller(tempScroller);
             cards.add(tempCard);
         }

@@ -128,7 +128,7 @@ public class Field {
 
     }
 
-    public static String getValueFromFieldId (ArrayList<Card> cards, int cardNum, String id) {
+    public static String getValueFromFieldId (ArrayList<Card> cards, String id) {
         String value = new String();
         for (Card tempCard : cards) {
             ArrayList<Field> tempFields = tempCard.getFields();
